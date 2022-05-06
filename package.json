@@ -16,8 +16,8 @@
   "contributes": {
     "commands": [
       {
-        "command": "devtime-vscode.helloWorld",
-        "title": "Hello World"
+        "command": "devtime-vscode.register_api_key",
+        "title": "Register Devtime API Key"
       }
     ]
   },

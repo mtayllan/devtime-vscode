@@ -6,8 +6,17 @@ import * as devtime  from './devtime';
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      'devtime-vscode.register_api_key',
+      () => devtime.registerApiKey(context.globalState)
+    )
+  );
+
   context.subscriptions.push(devtime.disposable);
-  devtime.initialize();
+
+  devtime.initialize(context.globalState);
+
 }
 
 // this method is called when your extension is deactivated
