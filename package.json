@@ -1,8 +1,10 @@
 {
-  "name": "devtime-vscode",
-  "displayName": "devtime",
+  "name": "devtimee-vscode",
+  "displayName": "DevTime VSCode",
   "description": "Track coding activity from vscode",
   "version": "0.0.1",
+  "publisher": "mtayllan",
+  "repository": "https://github.com/mtayllan/devtime-vscode",
   "engines": {
     "vscode": "^1.66.0"
   },
