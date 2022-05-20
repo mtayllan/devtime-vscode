@@ -18,6 +18,10 @@
       {
         "command": "devtime-vscode.register_api_key",
         "title": "Register Devtime API Key"
+      },
+      {
+        "command": "devtime-vscode.register_host",
+        "title": "Register Devtime Host to send Hits"
       }
     ]
   },

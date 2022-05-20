@@ -13,6 +13,13 @@ export function activate(context: vscode.ExtensionContext) {
     )
   );
 
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      'devtime-vscode.register_host',
+      () => devtime.registerHost(context.globalState)
+    )
+  );
+
   context.subscriptions.push(devtime.disposable);
 
   devtime.initialize(context.globalState);
