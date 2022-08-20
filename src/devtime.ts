@@ -9,13 +9,13 @@ type Hit = {
 };
 
 let lastHit:Hit = { };
+let lastFileName = '';
 
 const API_TOKEN_KEY = '@devtime/api_key';
 const HOST_URL_KEY = '@devtime/host_url';
 
 export const initialize = (globalState: Memento) => {
   const sendHitWithState = sendHit(globalState);
-
   vscode.window.onDidChangeTextEditorSelection(sendHitWithState);
   vscode.window.onDidChangeActiveTextEditor(sendHitWithState);
   vscode.workspace.onDidSaveTextDocument(sendHitWithState);
@@ -33,12 +33,15 @@ const sendHit = (globalState: Memento) => () => {
   const project = vscode.workspace.name;
   const language = vscode.window.activeTextEditor?.document.languageId;
   const date = new Date();
+  const fileName = vscode.window.activeTextEditor?.document.fileName || '';
   date.setMilliseconds(0);
   const timestamp = date.toISOString();
   const hit:Hit = { project, language, timestamp };
+  const lastHitDate = lastHit.timestamp && new Date(lastHit.timestamp);
 
-  if (project && language && !isHitsEqual(hit, lastHit)) {
+  if (project && language && !areHitsEqual(hit, lastHit) && (fileName !== lastFileName || (lastHitDate && date.getTime() - lastHitDate.getTime() > 60_000))) {
     lastHit = hit;
+    lastFileName = fileName;
     fetch(`${hostUrl}/api/hits`, {
       method: 'POST',
       headers: {
@@ -50,7 +53,7 @@ const sendHit = (globalState: Memento) => () => {
   }
 };
 
-const isHitsEqual = (hit1:Hit, hit2:Hit) => {
+const areHitsEqual = (hit1:Hit, hit2:Hit) => {
   if (hit1.language !== hit2.language) {return false;}
   if (hit1.project !== hit2.project) {return false;}
   if (hit1.timestamp !== hit2.timestamp) {return false;}
